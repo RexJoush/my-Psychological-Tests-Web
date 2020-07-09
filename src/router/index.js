@@ -91,9 +91,9 @@ export const constantRoutes = [
       },
       {
         path: 'findconsult',
-        name: '咨询服务管理',
+        name: '心理咨询师管理',
         component: () => import('@/views/findconsult/index'),
-        meta: { title: '咨询服务管理', icon: 'form' }
+        meta: { title: '心理咨询师管理', icon: 'form' }
       },
       {
         path: 'findonline',
