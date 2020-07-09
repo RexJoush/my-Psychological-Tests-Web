@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-07 09:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-08 23:22:31
+ * @LastEditTime: 2020-07-09 22:25:49
 -->
 <template>
   <div class="app-container">
@@ -86,6 +86,8 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
+            }).catch((err) => {
+              this.$message.error(err)
             })
             this.getSwiper()
           })
@@ -102,7 +104,10 @@ export default {
       fd.append('img_url', this.mode)
       this.$api.uploadSwiper(fd)
         .then(res => {
-          console.log(res.data)
+          this.$message({
+            type: 'success',
+            message: '上传成功!'
+          })
         })
     },
     modeUpload(item) {

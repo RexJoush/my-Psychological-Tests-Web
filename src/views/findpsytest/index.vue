@@ -3,10 +3,42 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-08 1:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-08 11:54:36
+ * @LastEditTime: 2020-07-10 06:29:43
 -->
 <template>
   <div class="app-container">
+    <el-button type="primary" @click="dialogFormVisible = true">添加心理测试</el-button>
+    <el-dialog title="添加心理测试" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="测试名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="测试简介" :label-width="formLabelWidth">
+          <el-input v-model="form.introduction" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="测试类别" :label-width="formLabelWidth">
+          <el-select
+            v-model="form.category_id"
+            placeholder="请选择测试类别"
+          >
+            <el-option v-for="val in categoryList" :key="val.category_id" :value="val.category_id" :label="val.category_name" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="选择图片" :label-width="formLabelWidth">
+          <el-upload
+            action="form.action"
+            :http-request="modeUpload"
+          >
+            <el-button size="small" type="primary">选择图片</el-button>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addPsyTest()">确 定</el-button>
+      </div>
+    </el-dialog>
+
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -22,17 +54,22 @@
       </el-table-column>
       <el-table-column label="测试名称" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.banner_url" class="img">
+          {{ scope.row.name || '--' }}
         </template>
       </el-table-column>
-      <el-table-column label="测试名称" align="center">
+      <el-table-column label="测试简介" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.banner_url" class="img">
+          {{ scope.row.introduction || '--' }}
+        </template>
+      </el-table-column>
+      <el-table-column label="测试分类" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.category || '--' }}
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
-          <el-button type="danger" @click="delBanner(scope.row.fileid)">删除</el-button>
+          <el-button type="danger" @click="delPsyTest(scope.row.test_id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -47,34 +84,57 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: false
+      listLoading: false,
+      dialogFormVisible: false,
+      categoryList: [],
+      form: {
+        name: '',
+        introduction: '',
+        action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest',
+        category_id: ''
+      },
+      formLabelWidth: '120px'
     }
   },
   created() {
-    this.getSwiper()
+    this.getTestList()
+    this.getCategoryList()
   },
   methods: {
-    getSwiper() {
-      this.listLoading = false
-    //   this.list = data
-      // this.$api.getSwiper().then((res) => {
-      //   this.list = res
-      //   this.listLoading = false
-      // })
+    getCategoryList() {
+      this.$api.getCategoryList()
+        .then(res => {
+          const data = res.data.data
+          this.categoryList = data
+          console.log('getCategoryList', this.categoryList)
+        })
     },
-    delBanner(id) {
+    getTestList() {
+      this.listLoading = false
+      this.$api.getTestList()
+        .then(res => {
+          const data = res.data.data
+          this.list = data
+          this.listLoading = false
+        }).catch(err => {
+          console.log('err', err)
+        })
+    },
+    delPsyTest(id) {
       this.$confirm('确认删除吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then((res) => {
-        this.$api.delSwiper(id)
+        this.$api.delPsyTest({ 'test_id': id })
           .then((res) => {
             this.$message({
               type: 'success',
               message: '删除成功!'
+            }).catch((err) => {
+              this.$message.error(err)
             })
-            this.getSwiper()
+            this.getTestList()
           })
       }).catch(() => {
         this.$message({
@@ -82,14 +142,31 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    addPsyTest() {
+      this.dialogFormVisible = false
+      const fd = new FormData()
+      fd.append('img_url', this.mode)
+      this.$api.addPsyTest({ fd, form })
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: '上传成功!'
+          })
+        })
+    },
+    modeUpload(item) {
+      this.mode = item.file
+    },
+    getChange: function(i, item) {
+      this.printerSelect[i] = item
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.img {
-  width: 200px;
-  height: 80px;
+.el-button {
+  margin-bottom: 20px;
 }
 </style>
- 
+
