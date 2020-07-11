@@ -29,7 +29,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="选择图片" :label-width="formLabelWidth">
+        <el-form-item label="选择测试详情图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
             :http-request="modeUpload"

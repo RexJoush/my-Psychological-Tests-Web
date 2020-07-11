@@ -10,7 +10,7 @@
     <el-button type="primary" @click="dialogFormVisible = true">添加心理咨询师</el-button>
     <el-dialog title="添加咨询师" :visible.sync="dialogFormVisible">
       <el-form ref="addFormRef" :model="form">
-        <el-form-item label="咨询师名称" :label-width="formLabelWidth" prop="category_name">
+        <el-form-item label="咨询师姓名" :label-width="formLabelWidth" prop="category_name">
           <el-input v-model="form.consultant_name" />
         </el-form-item>
         <el-form-item label="咨询师性别" :label-width="formLabelWidth" prop="sex">
@@ -48,7 +48,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="选择图片" :label-width="formLabelWidth">
+        <el-form-item label="选择咨询师图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
             :http-request="modeUpload"
@@ -56,7 +56,7 @@
             <el-button size="small" type="primary">选择图片</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="选择详情图片" :label-width="formLabelWidth">
+        <el-form-item label="选择咨询师剩余介绍详情图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
             :http-request="modeUploadDetail"

@@ -29,7 +29,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="选择图片" :label-width="formLabelWidth">
+        <el-form-item label="选择课程图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
             :http-request="modeUpload"
@@ -37,7 +37,7 @@
             <el-button size="small" type="primary">选择课程图片</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="选择图片" :label-width="formLabelWidth">
+        <el-form-item label="选择详细介绍图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
             :http-request="modeUploadDetail"
