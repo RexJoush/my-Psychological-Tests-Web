@@ -3,18 +3,28 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-010 06:08:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 11:54:42
+ * @LastEditTime: 2020-07-11 21:19:21
 -->
 <template>
   <div class="app-container">
     <el-button type="primary" @click="dialogFormVisible = true">添加心理咨询师</el-button>
     <el-dialog title="添加咨询师" :visible.sync="dialogFormVisible">
-      <el-form ref="addFormRef" :model="form" :rules="rules">
+      <el-form ref="addFormRef" :model="form">
         <el-form-item label="咨询师名称" :label-width="formLabelWidth" prop="category_name">
           <el-input v-model="form.consultant_name" />
         </el-form-item>
-        <el-form-item label="咨询师名称" :label-width="formLabelWidth" prop="sex">
-          <el-input v-model="form.sex" />
+        <el-form-item label="咨询师性别" :label-width="formLabelWidth" prop="sex">
+          <el-select
+            v-model="form.sex"
+            placeholder="请选择性别"
+          >
+            <el-option
+              v-for="item in sexList"
+              :key="item.value"
+              :value="item.label"
+              :label="item.label"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="咨询师的简介" :label-width="formLabelWidth" prop="introduction">
           <el-input v-model="form.introduction" />
@@ -25,12 +35,33 @@
         <el-form-item label="咨询价格" :label-width="formLabelWidth" prop="price">
           <el-input v-model="form.price" />
         </el-form-item>
+        <el-form-item label="咨询形式" :label-width="formLabelWidth" prop="sex">
+          <el-select
+            v-model="form.type"
+            placeholder="请选择咨询形式"
+          >
+            <el-option
+              v-for="item in typeList"
+              :key="item.value"
+              :value="item.label"
+              :label="item.label"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="选择图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
             :http-request="modeUpload"
           >
             <el-button size="small" type="primary">选择图片</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="选择详情图片" :label-width="formLabelWidth">
+          <el-upload
+            action="form.action"
+            :http-request="modeUploadDetail"
+          >
+            <el-button size="small" type="primary">选择详情图片</el-button>
           </el-upload>
         </el-form-item>
       </el-form>
@@ -81,13 +112,22 @@ export default {
       listLoading: false,
       dialogFormVisible: false,
       categoryList: [],
+      sexList: [
+        { value: 0, label: '男' },
+        { value: 1, label: '女' }
+      ],
+      typeList: [
+        { value: 0, label: '面对面咨询' },
+        { value: 1, label: '线上咨询' }
+      ],
       form: {
         consultant_name: '',
         sex: '',
         introduction: '',
         expertise: '',
         prcie: '',
-        action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest'
+        action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest',
+        type: ''
       },
       formLabelWidth: '130px'
     }
@@ -136,13 +176,32 @@ export default {
       })
     },
     addConsultant() {
-
+      this.dialogFormVisible = false
+      const fd = new FormData()
+      fd.append('details_img_url', this.detailimg)
+      fd.append('img_url', this.mode)
+      fd.append('consultant_name', this.form.consultant_name)
+      fd.append('introduction', this.form.introduction)
+      fd.append('expertise', this.form.expertise)
+      fd.append('price', this.form.price)
+      fd.append('sex', this.form.sex)
+      fd.append('form', this.form.type)
+      this.$api.addConsultant(fd)
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: '上传成功!'
+          })
+          this.getConList()
+        }).catch(err => {
+          console.log(err)
+        })
     },
     modeUpload(item) {
       this.mode = item.file
     },
-    getChange: function(i, item) {
-      this.printerSelect[i] = item
+    modeUploadDetail(item) {
+      this.detailimg = item.file
     }
   }
 }

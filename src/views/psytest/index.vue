@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-07 11:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:28:42
+ * @LastEditTime: 2020-07-11 21:33:44
 -->
 <template>
   <div class="app-container">
@@ -14,9 +14,20 @@
       :close-on-click-modal="false"
       @close="addDialogClose"
     >
-      <el-form ref="addFormRef" :model="form" :rules="rules">
-        <el-form-item label="心理测试ID" :label-width="formLabelWidth" prop="test_id">
-          <el-input v-model="form.test_id" />
+      <el-form ref="addFormRef" :model="form">
+        <el-form-item label="心理测试ID" :label-width="formLabelWidth" prop="sex">
+          <el-select
+            v-model="form.test_id"
+            placeholder="请选择心理测试"
+          >
+            <el-option
+              v-for="item in psyList"
+              :key="item.test_id"
+              :value="item.test_id"
+              :label="item.name"
+            />
+          </el-select>
+        </el-form-item>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -63,6 +74,7 @@ export default {
       list: null,
       listLoading: false,
       dialogFormVisible: false,
+      psyList: [],
       form: {
         test_id: ''
       },
@@ -76,8 +88,18 @@ export default {
   },
   created() {
     this.getHomePsyTest()
+    this.getTestList()
   },
   methods: {
+    getTestList() {
+      this.$api.getTestList()
+        .then(res => {
+          const data = res.data.data
+          this.psyList = data
+        }).catch(err => {
+          this.$message.error(err)
+        })
+    },
     getHomePsyTest() {
       this.listLoading = false
       this.$api.getHomePsyTest()

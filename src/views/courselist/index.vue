@@ -3,15 +3,25 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-10 09:14:47
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:28:55
+ * @LastEditTime: 2020-07-11 21:46:30
 -->
 <template>
   <div class="app-container">
     <el-button type="primary" @click="dialogFormVisible = true">添加线上课程</el-button>
     <el-dialog title="添加线上课程" :visible.sync="dialogFormVisible">
-      <el-form ref="addFormRef" :model="form" :rules="rules">
-        <el-form-item label="线上课程id" :label-width="formLabelWidth" prop="course_id">
-          <el-input v-model="form.course_id" />
+      <el-form ref="addFormRef" :model="form">
+        <el-form-item label="线上课程" :label-width="formLabelWidth">
+          <el-select
+            v-model="form.course_id"
+            placeholder="请选择线上课程"
+          >
+            <el-option
+              v-for="val in courseList"
+              :key="val.course_id"
+              :value="val.course_id"
+              :label="val.title"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -48,8 +58,6 @@
 </template>
 
 <script>
-// import fa from 'element-ui/src/locale/lang/fa'
-// import data from './mock'
 
 export default {
   data() {
@@ -57,21 +65,26 @@ export default {
       list: null,
       listLoading: false,
       dialogFormVisible: false,
+      courseList: [],
       form: {
         course_id: ''
       },
-      formLabelWidth: '120px',
-      rules: {
-        course_id: [
-          { required: true, message: '请输入线上课程id', trigger: 'blur' }
-        ]
-      }
+      formLabelWidth: '120px'
     }
   },
   created() {
     this.getHomeCourse()
+    this.getCourseList()
   },
   methods: {
+    getCourseList() {
+      this.$api.getCourseList()
+        .then(res => {
+          const data = res.data.data
+          this.courseList = data
+          console.log('conList', this.courseList)
+        })
+    },
     getHomeCourse() {
       this.listLoading = false
       this.$api.getHomeCourse()
@@ -109,7 +122,7 @@ export default {
     addHomeCourse() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return null
-        await this.$api.addHomeCourse({ 'course_id': (this.form.course_id).toString() })
+        await this.$api.addHomeCourse({ 'course_id': this.form.course_id })
           .then(res => {
             this.$message.success('添加成功')
             this.getHomeCourse()

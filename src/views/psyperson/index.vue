@@ -3,15 +3,25 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-11 07:12:54
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:19:38
+ * @LastEditTime: 2020-07-11 21:43:07
 -->
 <template>
   <div class="app-container">
     <el-button type="primary" @click="dialogFormVisible = true">添加心理咨询师</el-button>
     <el-dialog title="添加咨询师" :visible.sync="dialogFormVisible">
-      <el-form ref="addFormRef" :model="form" :rules="rules">
-        <el-form-item label="咨询师ID" :label-width="formLabelWidth" prop="consultant_id  ">
-          <el-input v-model="form.consultant_id" />
+      <el-form ref="addFormRef" :model="form">
+        <el-form-item label="咨询师" :label-width="formLabelWidth">
+          <el-select
+            v-model="form.consultant_id"
+            placeholder="请选择咨询师"
+          >
+            <el-option
+              v-for="val in conList"
+              :key="val.consultant_id"
+              :value="val.consultant_id"
+              :label="val.consultant_name"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -53,30 +63,32 @@
 </template>
 
 <script>
-// import fa from 'element-ui/src/locale/lang/fa'
-// import data from './mock'
-
 export default {
   data() {
     return {
       list: null,
       listLoading: false,
       dialogFormVisible: false,
+      conList: [],
       form: {
         consultant_id: ''
       },
-      formLabelWidth: '130px',
-      rules: {
-        consultant_id: [
-          { required: true, message: '请输入咨询师id', trigger: 'blur' }
-        ]
-      }
+      formLabelWidth: '130px'
     }
   },
   created() {
     this.getHomeConsultant()
+    this.getConList()
   },
   methods: {
+    getConList() {
+      this.$api.getConList()
+        .then(res => {
+          const data = res.data.data
+          this.conList = data
+          console.log('conList', this.conList)
+        })
+    },
     getHomeConsultant() {
       this.listLoading = false
       this.$api.getHomeConsultant()

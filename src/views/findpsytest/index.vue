@@ -3,17 +3,17 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-08 1:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:29:59
+ * @LastEditTime: 2020-07-11 20:50:49
 -->
 <template>
   <div class="app-container">
     <el-button type="primary" @click="dialogFormVisible = true">添加心理测试</el-button>
     <el-dialog title="添加心理测试" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="测试名称" :label-width="formLabelWidth">
+      <el-form ref="addFormRef" :model="form">
+        <el-form-item label="测试名称" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" />
         </el-form-item>
-        <el-form-item label="测试简介" :label-width="formLabelWidth">
+        <el-form-item label="测试简介" :label-width="formLabelWidth" prop="introduction">
           <el-input v-model="form.introduction" />
         </el-form-item>
         <el-form-item label="测试类别" :label-width="formLabelWidth">
@@ -21,7 +21,12 @@
             v-model="form.category_id"
             placeholder="请选择测试类别"
           >
-            <el-option v-for="val in categoryList" :key="val.category_id" :value="val.category_id" :label="val.category_name" />
+            <el-option
+              v-for="val in categoryList"
+              :key="val.category_id"
+              :value="val.category_id"
+              :label="val.category_name"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="选择图片" :label-width="formLabelWidth">
@@ -77,8 +82,6 @@
 </template>
 
 <script>
-// import fa from 'element-ui/src/locale/lang/fa'
-// import data from './mock'
 
 export default {
   data() {
@@ -93,7 +96,7 @@ export default {
         action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest',
         category_id: ''
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '130px'
     }
   },
   created() {
@@ -131,8 +134,6 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            }).catch((err) => {
-              this.$message.error(err)
             })
             this.getTestList()
           })
@@ -146,28 +147,23 @@ export default {
     addPsyTest() {
       this.dialogFormVisible = false
       const fd = new FormData()
-      fd.append('img_url', this.mode)
-      const params = {
-        fd,
-        'name': this.form.name,
-        'introduction': this.form.introduction,
-        'category_id': this.form.category_id
-      }
-      this.$api.addPsyTest(params)
+      fd.append('details_img_url', this.mode)
+      fd.append('name', this.form.name)
+      fd.append('introduction', this.form.introduction)
+      fd.append('category_id', this.form.category_id)
+      this.$api.addPsyTest(fd)
         .then(res => {
           this.$message({
             type: 'success',
             message: '上传成功!'
           })
+          this.getCourseList()
         }).catch(err => {
-          this.$message.err(err)
+          console.log(err)
         })
     },
     modeUpload(item) {
       this.mode = item.file
-    },
-    getChange: function(i, item) {
-      this.printerSelect[i] = item
     }
   }
 }

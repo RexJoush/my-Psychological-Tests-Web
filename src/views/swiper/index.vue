@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-07 09:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:22:37
+ * @LastEditTime: 2020-07-11 19:54:27
 -->
 <template>
   <div class="app-container">
@@ -33,12 +33,12 @@
       </el-table-column>
       <el-table-column label="Swiper" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.banner_url" class="img">
+          <img :src="scope.row.img_url" class="img">
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
-          <el-button type="danger" @click="delBanner(scope.row.fileid)">删除</el-button>
+          <el-button type="danger" @click="delBanner(scope.row.banner_id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,8 +46,6 @@
 </template>
 
 <script>
-// import fa from 'element-ui/src/locale/lang/fa'
-// import data from './mock'
 
 export default {
   data() {
@@ -64,7 +62,6 @@ export default {
   methods: {
     async getSwiper() {
       this.listLoading = true
-      // this.list = data
       this.$api.getSwiper()
         .then(res => {
           const data = res.data.data
@@ -81,7 +78,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then((res) => {
-        this.$api.delSwiper({ 'fileid': id })
+        this.$api.delSwiper({ 'banner_id': id })
           .then((res) => {
             if (res.data.result === 0) {
               this.$message({
