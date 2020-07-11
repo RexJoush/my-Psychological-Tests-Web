@@ -1,22 +1,22 @@
 <!--
- * @Description: 首页-心理咨询师管理
+ * @Description: 首页-线上课程管理
  * @Autor: Bonny.meng
- * @Date: 2020-07-11 07:12:54
+ * @Date: 2020-07-10 09:14:47
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:19:38
+ * @LastEditTime: 2020-07-11 10:28:55
 -->
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="dialogFormVisible = true">添加心理咨询师</el-button>
-    <el-dialog title="添加咨询师" :visible.sync="dialogFormVisible">
+    <el-button type="primary" @click="dialogFormVisible = true">添加线上课程</el-button>
+    <el-dialog title="添加线上课程" :visible.sync="dialogFormVisible">
       <el-form ref="addFormRef" :model="form" :rules="rules">
-        <el-form-item label="咨询师ID" :label-width="formLabelWidth" prop="consultant_id  ">
-          <el-input v-model="form.consultant_id" />
+        <el-form-item label="线上课程id" :label-width="formLabelWidth" prop="course_id">
+          <el-input v-model="form.course_id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addHomeConsultant">确 定</el-button>
+        <el-button type="primary" @click="addHomeCourse">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -33,19 +33,14 @@
           {{ scope.$index+1 }}
         </template>
       </el-table-column>
-      <el-table-column label="咨询师名称" align="center">
+      <el-table-column label="课程名称" align="center">
         <template slot-scope="scope">
-          {{ scope.row.consultant_name || '--' }}
-        </template>
-      </el-table-column>
-      <el-table-column label="图片" align="center">
-        <template slot-scope="scope">
-          <img :src="scope.row.img_url" class="img">
+          {{ scope.row.title || '--' }}
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
-          <el-button type="danger" @click="delConsultant(scope.row.consultant_id)">删除</el-button>
+          <el-button type="danger" @click="delHomeCourse(scope.row.course_id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,23 +58,23 @@ export default {
       listLoading: false,
       dialogFormVisible: false,
       form: {
-        consultant_id: ''
+        course_id: ''
       },
-      formLabelWidth: '130px',
+      formLabelWidth: '120px',
       rules: {
-        consultant_id: [
-          { required: true, message: '请输入咨询师id', trigger: 'blur' }
+        course_id: [
+          { required: true, message: '请输入线上课程id', trigger: 'blur' }
         ]
       }
     }
   },
   created() {
-    this.getHomeConsultant()
+    this.getHomeCourse()
   },
   methods: {
-    getHomeConsultant() {
+    getHomeCourse() {
       this.listLoading = false
-      this.$api.getHomeConsultant()
+      this.$api.getHomeCourse()
         .then(res => {
           const data = res.data.data
           this.list = data
@@ -88,26 +83,21 @@ export default {
           console.log('err', err)
         })
     },
-    delConsultant(id) {
+    delHomeCourse(id) {
       this.$confirm('确认删除吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then((res) => {
-        this.$api.delConsultant({ 'consultant_id': id })
+        this.$api.delHomeCourse({ 'course_id': id })
           .then((res) => {
-            console.log('del', res.data.err)
-            if (res.data.result === 0) {
-              this.$message({
-                type: 'error',
-                message: res.data.err
-              })
-            } else {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-            }
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            }).catch((err) => {
+              this.$message.error(err)
+            })
+            this.getHomeCourse()
           })
       }).catch(() => {
         this.$message({
@@ -115,15 +105,14 @@ export default {
           message: '已取消删除'
         })
       })
-      this.getHomeConsultant()
     },
-    addHomeConsultant() {
+    addHomeCourse() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return null
-        await this.$api.addHomeConsultant({ 'consultant_id': this.form.consultant_id })
+        await this.$api.addHomeCourse({ 'course_id': (this.form.course_id).toString() })
           .then(res => {
             this.$message.success('添加成功')
-            this.getHomeConsultant()
+            this.getHomeCourse()
             this.dialogFormVisible = false // 关闭弹框
           }).catch((err) => {
             this.$message.error(err)

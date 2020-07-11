@@ -3,12 +3,9 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-08 22:20:05
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-09 22:35:18
+ * @LastEditTime: 2020-07-11 10:01:41
  */
-import Vue from 'vue'
-import axios from 'axios'
-import qs from 'qs'
-import { Message, Loading } from 'element-ui'
+
 import { post, get } from './httpconfig'
 const baseurl = 'http://www.rexjoush.com:3000/webapp'
 
@@ -31,6 +28,46 @@ export default {
   changeEap(params) {
     return post(baseurl + '/home/changeEap', params)
   },
+  // 首页-心理测试管理
+  // 获取心理测试列表
+  getHomePsyTest() {
+    return get(baseurl + '/home/getHomePsyTest')
+  },
+  // 删除心理测试
+  delHomePsyTest(params) {
+    return get(baseurl + '/home/delHomePsyTest', params)
+  },
+  // 添加新测试
+  addHomePsyTest(params) {
+    return get(baseurl + '/home/addHomePsyTest', params)
+  },
+  // 首页-咨询师管理
+  // 获取首页咨询师
+  getHomeConsultant() {
+    return get(baseurl + '/home/getHomeConsultant')
+  },
+  // 添加咨询师
+  addHomeConsultant(params) {
+    return get(baseurl + '/home/addHomeConsultant', params)
+  },
+  // 删除咨询师
+  delHomeConsultant(params) {
+    return get(baseurl + '/home/delHomeConsultant', params)
+  },
+
+  // 首页-线上课程管理
+  // 获取线上课程列表
+  getHomeCourse() {
+    return get(baseurl + '/home/getHomeCourse')
+  },
+  // 添加线上课程
+  addHomeCourse(params) {
+    return get(baseurl + '/home/addHomeCourse', params)
+  },
+  // 删除线上课程
+  delHomeCourse(params) {
+    return get(baseurl + '/home/delHomeCourse', params)
+  },
 
   // 发现-心理测试管理
   // 获取心理测试列表
@@ -46,9 +83,18 @@ export default {
   addPsyTest(params) {
     return post(baseurl + '/discover/addPsyTest', params)
   },
+  // 心里测试类别管理
   // 获取心理测试类别
   getCategoryList() {
     return get(baseurl + '/discover/getCategoryList')
+  },
+  // 添加测试类别
+  addCategory(params) {
+    return get(baseurl + '/discover/addCategory', params)
+  },
+  // 删除测试类别
+  delCategory(params) {
+    return get(baseurl + '/discover/delCategory', params)
   },
   // 发现-心理咨询师管理
   // 获取咨询师列表

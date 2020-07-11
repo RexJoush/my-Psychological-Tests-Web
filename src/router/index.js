@@ -57,9 +57,9 @@ export const constantRoutes = [
         meta: { title: '心理咨询师管理', icon: 'tree' }
       },
       {
-        path: 'consultlist',
+        path: 'courselist',
         name: '线上课程管理',
-        component: () => import('@/views/consultlist/index'),
+        component: () => import('@/views/courselist/index'),
         meta: { title: '线上课程管理', icon: 'tree' }
       },
       {

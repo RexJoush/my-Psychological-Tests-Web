@@ -3,24 +3,24 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-010 06:58:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-10 07:50:06
+ * @LastEditTime: 2020-07-11 10:29:43
 -->
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="dialogFormVisible = true">添加心理测试</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">添加线上课程</el-button>
     <el-dialog title="添加线上课程" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="咨询师名称" :label-width="formLabelWidth">
-          <el-input v-model="form.consultant_name" autocomplete="off" />
+          <el-input v-model="form.consultant_name" />
         </el-form-item>
         <el-form-item label="咨询师的简介" :label-width="formLabelWidth">
-          <el-input v-model="form.introduction" autocomplete="off" />
+          <el-input v-model="form.introduction" />
         </el-form-item>
         <el-form-item label="咨询师的擅长领域" :label-width="formLabelWidth">
-          <el-input v-model="form.expertise" autocomplete="off" />
+          <el-input v-model="form.expertise" />
         </el-form-item>
         <el-form-item label="咨询价格" :label-width="formLabelWidth">
-          <el-input v-model="form.price" autocomplete="off" />
+          <el-input v-model="form.price" />
         </el-form-item>
         <el-form-item label="选择图片" :label-width="formLabelWidth">
           <el-upload
@@ -33,7 +33,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addConsultant()">确 定</el-button>
+        <el-button type="primary" @click="addCourse">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -122,7 +122,7 @@ export default {
         })
       })
     },
-    addConsultant() {
+    addCourse() {
 
     },
     modeUpload(item) {

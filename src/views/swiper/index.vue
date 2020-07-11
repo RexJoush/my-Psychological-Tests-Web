@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-07 09:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-09 22:25:49
+ * @LastEditTime: 2020-07-11 10:22:37
 -->
 <template>
   <div class="app-container">
@@ -83,12 +83,17 @@ export default {
       }).then((res) => {
         this.$api.delSwiper({ 'fileid': id })
           .then((res) => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            }).catch((err) => {
-              this.$message.error(err)
-            })
+            if (res.data.result === 0) {
+              this.$message({
+                type: 'error',
+                message: res.data.err
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
             this.getSwiper()
           })
       }).catch(() => {
@@ -108,6 +113,7 @@ export default {
             type: 'success',
             message: '上传成功!'
           })
+          this.getSwiper()
         })
     },
     modeUpload(item) {

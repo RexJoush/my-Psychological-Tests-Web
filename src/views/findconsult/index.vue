@@ -3,24 +3,24 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-010 06:08:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-10 07:38:28
+ * @LastEditTime: 2020-07-11 10:29:11
 -->
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="dialogFormVisible = true">添加心理测试</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">添加心理咨询师</el-button>
     <el-dialog title="添加咨询师" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="咨询师名称" :label-width="formLabelWidth">
-          <el-input v-model="form.consultant_name" autocomplete="off" />
+          <el-input v-model="form.consultant_name" />
         </el-form-item>
         <el-form-item label="咨询师的简介" :label-width="formLabelWidth">
-          <el-input v-model="form.introduction" autocomplete="off" />
+          <el-input v-model="form.introduction" />
         </el-form-item>
         <el-form-item label="咨询师的擅长领域" :label-width="formLabelWidth">
-          <el-input v-model="form.expertise" autocomplete="off" />
+          <el-input v-model="form.expertise" />
         </el-form-item>
         <el-form-item label="咨询价格" :label-width="formLabelWidth">
-          <el-input v-model="form.price" autocomplete="off" />
+          <el-input v-model="form.price" />
         </el-form-item>
         <el-form-item label="选择图片" :label-width="formLabelWidth">
           <el-upload
@@ -81,28 +81,20 @@ export default {
       dialogFormVisible: false,
       categoryList: [],
       form: {
-        name: '',
+        consultant_name: '',
         introduction: '',
-        action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest',
-        category_id: ''
+        expertise: '',
+        prcie: '',
+        action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest'
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '130px'
     }
   },
   created() {
-    this.getTestList()
-    this.getCategoryList()
+    this.getConList()
   },
   methods: {
-    getCategoryList() {
-      this.$api.getCategoryList()
-        .then(res => {
-          const data = res.data.data
-          this.categoryList = data
-          console.log('getCategoryList', this.categoryList)
-        })
-    },
-    getTestList() {
+    getConList() {
       this.listLoading = false
       this.$api.getConList()
         .then(res => {
@@ -119,15 +111,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then((res) => {
-        this.$api.delConsultant({ 'consultant_id1': id })
+        this.$api.delConsultant({ 'consultant_id': id })
           .then((res) => {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            }).catch((err) => {
-              this.$message.error(err)
             })
-            this.getTestList()
           })
       }).catch(() => {
         this.$message({

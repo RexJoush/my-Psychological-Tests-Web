@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-08 1:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-10 06:29:43
+ * @LastEditTime: 2020-07-11 10:29:59
 -->
 <template>
   <div class="app-container">
@@ -11,10 +11,10 @@
     <el-dialog title="添加心理测试" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="测试名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" />
+          <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item label="测试简介" :label-width="formLabelWidth">
-          <el-input v-model="form.introduction" autocomplete="off" />
+          <el-input v-model="form.introduction" />
         </el-form-item>
         <el-form-item label="测试类别" :label-width="formLabelWidth">
           <el-select
@@ -35,7 +35,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addPsyTest()">确 定</el-button>
+        <el-button type="primary" @click="addPsyTest">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -147,12 +147,20 @@ export default {
       this.dialogFormVisible = false
       const fd = new FormData()
       fd.append('img_url', this.mode)
-      this.$api.addPsyTest({ fd, form })
+      const params = {
+        fd,
+        'name': this.form.name,
+        'introduction': this.form.introduction,
+        'category_id': this.form.category_id
+      }
+      this.$api.addPsyTest(params)
         .then(res => {
           this.$message({
             type: 'success',
             message: '上传成功!'
           })
+        }).catch(err => {
+          this.$message.err(err)
         })
     },
     modeUpload(item) {
