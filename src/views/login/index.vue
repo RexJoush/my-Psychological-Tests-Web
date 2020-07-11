@@ -180,7 +180,7 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background: url('../../assets/loginbg.jpg') no-repeat center;
+  background: url('../../assets/loginbg.jpeg') no-repeat center;
   background-size: cover;
   overflow: hidden;
 

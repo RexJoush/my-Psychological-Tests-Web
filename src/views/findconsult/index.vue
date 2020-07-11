@@ -3,23 +3,26 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-010 06:08:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:29:11
+ * @LastEditTime: 2020-07-11 11:54:42
 -->
 <template>
   <div class="app-container">
     <el-button type="primary" @click="dialogFormVisible = true">添加心理咨询师</el-button>
     <el-dialog title="添加咨询师" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="咨询师名称" :label-width="formLabelWidth">
+      <el-form ref="addFormRef" :model="form" :rules="rules">
+        <el-form-item label="咨询师名称" :label-width="formLabelWidth" prop="category_name">
           <el-input v-model="form.consultant_name" />
         </el-form-item>
-        <el-form-item label="咨询师的简介" :label-width="formLabelWidth">
+        <el-form-item label="咨询师名称" :label-width="formLabelWidth" prop="sex">
+          <el-input v-model="form.sex" />
+        </el-form-item>
+        <el-form-item label="咨询师的简介" :label-width="formLabelWidth" prop="introduction">
           <el-input v-model="form.introduction" />
         </el-form-item>
-        <el-form-item label="咨询师的擅长领域" :label-width="formLabelWidth">
+        <el-form-item label="咨询师的擅长领域" :label-width="formLabelWidth" prop="expertise">
           <el-input v-model="form.expertise" />
         </el-form-item>
-        <el-form-item label="咨询价格" :label-width="formLabelWidth">
+        <el-form-item label="咨询价格" :label-width="formLabelWidth" prop="price">
           <el-input v-model="form.price" />
         </el-form-item>
         <el-form-item label="选择图片" :label-width="formLabelWidth">
@@ -70,8 +73,6 @@
 </template>
 
 <script>
-// import fa from 'element-ui/src/locale/lang/fa'
-// import data from './mock'
 
 export default {
   data() {
@@ -82,6 +83,7 @@ export default {
       categoryList: [],
       form: {
         consultant_name: '',
+        sex: '',
         introduction: '',
         expertise: '',
         prcie: '',
@@ -113,10 +115,18 @@ export default {
       }).then((res) => {
         this.$api.delConsultant({ 'consultant_id': id })
           .then((res) => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
+            if (res.data.result === 0) {
+              this.$message({
+                type: 'error',
+                message: res.data.err
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+            this.getConList()
           })
       }).catch(() => {
         this.$message({

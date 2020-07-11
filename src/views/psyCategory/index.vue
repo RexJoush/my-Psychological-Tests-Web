@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-09 22:42:02
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:30:07
+ * @LastEditTime: 2020-07-11 10:49:52
 -->
 <template>
   <div class="app-container">
@@ -15,8 +15,8 @@
       @close="addDialogClose"
     >
       <el-form ref="addFormRef" :model="form" :rules="rules">
-        <el-form-item label="测试类别名称" :label-width="formLabelWidth" prop="consultant_name">
-          <el-input v-model="form.consultant_name" />
+        <el-form-item label="测试类别名称" :label-width="formLabelWidth" prop="category_name">
+          <el-input v-model="form.category_name" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -92,12 +92,19 @@ export default {
       }).then((res) => {
         this.$api.delCategory({ 'category_id': id })
           .then((res) => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
+            if (res.data.result === 0) {
+              this.$message({
+                type: 'error',
+                message: res.data.err
+              })
+            } else {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
           }).catch((err) => {
-            this.$message.error(err)
+            this.$message.error(err.data.err)
           })
         this.getCategoryList()
       }).catch(() => {
@@ -108,10 +115,9 @@ export default {
       })
     },
     addCategory() {
-      console.log('this.form.consultant_name', this.form.consultant_name)
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return null
-        await this.$api.addCategory({ 'consultant_name': (this.form.consultant_name).toString() })
+        await this.$api.addCategory({ 'category_name': (this.form.category_name).toString() })
           .then(res => {
             this.$message.success('添加成功')
             this.getCategoryList()
