@@ -119,7 +119,7 @@ export default {
       typeList: [
         { value: 1, label: '两种均可' },
         { value: 2, label: '线上咨询' },
-        { value: 3, lable: '面对面咨询'}
+        { value: 3, label: '面对面咨询'}
       ],
       form: {
         consultant_name: '',
