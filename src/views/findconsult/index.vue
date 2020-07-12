@@ -43,7 +43,7 @@
             <el-option
               v-for="item in typeList"
               :key="item.value"
-              :value="item.label"
+              :value="item.value"
               :label="item.label"
             />
           </el-select>
@@ -117,8 +117,9 @@ export default {
         { value: 1, label: '女' }
       ],
       typeList: [
-        { value: 0, label: '面对面咨询' },
-        { value: 1, label: '线上咨询' }
+        { value: 1, label: '两种均可' },
+        { value: 2, label: '线上咨询' },
+        { value: 3, lable: '面对面咨询'}
       ],
       form: {
         consultant_name: '',
