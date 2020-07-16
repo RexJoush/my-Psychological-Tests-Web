@@ -1,5 +1,5 @@
 <!--
- * @Description: 发现-线上管理
+ * @Description: 发现-线上课程管理
  * @Autor: Bonny.meng
  * @Date: 2020-07-010 06:58:20
  * @LastEditors: Bonny.meng
@@ -28,6 +28,9 @@
               :label="val.consultant_name"
             />
           </el-select>
+        </el-form-item>
+        <el-form-item label="课程价格" :label-width="formLabelWidth">
+          <el-input v-model="form.price" />
         </el-form-item>
         <el-form-item label="选择课程图片" :label-width="formLabelWidth">
           <el-upload
@@ -91,6 +94,7 @@ export default {
       form: {
         title: '',
         subtitle: '',
+        price: '',
         action: 'http://www.rexjoush.com:3000/webapp/discover/addPsyTest',
         consultant_id: ''
       },
@@ -154,6 +158,7 @@ export default {
       fd.append('details_introduction_img', this.detailimg)
       fd.append('title', this.form.title)
       fd.append('subtitle', this.form.subtitle)
+      fd.append('price', this.form.price)
       fd.append('consultant_id', this.form.consultant_id)
       fd.append('is_course', 1)
       this.$api.addCourse(fd)

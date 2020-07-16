@@ -32,10 +32,10 @@
         <el-form-item label="咨询师的擅长领域" :label-width="formLabelWidth" prop="expertise">
           <el-input v-model="form.expertise" />
         </el-form-item>
-        <el-form-item label="咨询价格" :label-width="formLabelWidth" prop="price">
+        <el-form-item label="咨询价格(每小时)" :label-width="formLabelWidth" prop="price">
           <el-input v-model="form.price" />
         </el-form-item>
-        <el-form-item label="咨询形式" :label-width="formLabelWidth" prop="sex">
+        <!-- <el-form-item label="咨询形式" :label-width="formLabelWidth" prop="sex">
           <el-select
             v-model="form.type"
             placeholder="请选择咨询形式"
@@ -47,7 +47,7 @@
               :label="item.label"
             />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="选择咨询师图片" :label-width="formLabelWidth">
           <el-upload
             action="form.action"
