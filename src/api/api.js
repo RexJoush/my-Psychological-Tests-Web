@@ -3,11 +3,11 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-08 22:20:05
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 10:01:41
+ * @LastEditTime: 2020-09-06 13:50:54
  */
 
 import { post, get } from './httpconfig'
-const baseurl = 'http://www.rexjoush.com:3000/webapp'
+const baseurl = 'http://111.231.50.23:3000/webapp'
 
 export default {
   // 首页-轮播图
