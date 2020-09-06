@@ -1,3 +1,4 @@
 Psychological Test Web端页面
-- npm install打包
+- npm install 安装依赖 
 - npm run dev 启动项目
+- npm run build 打包
