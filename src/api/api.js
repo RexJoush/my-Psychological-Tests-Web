@@ -3,12 +3,12 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-08 22:20:05
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-09-06 13:50:54
+ * @LastEditTime: 2020-09-10 20:33:08
  */
 
 import { post, get } from './httpconfig'
-const baseurl = 'http://111.231.50.23:3000/webapp'
-
+const baseurl = 'https://www.xinliceliang.com:39666/webapp'
+// https://www.xinliceliang.com:39666
 export default {
   // 首页-轮播图
 
