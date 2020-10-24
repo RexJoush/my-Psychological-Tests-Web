@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-10 09:14:47
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-07-11 21:46:30
+ * @LastEditTime: 2020-10-24 20:38:16
 -->
 <template>
   <div class="app-container">
@@ -107,10 +107,10 @@ export default {
             this.$message({
               type: 'success',
               message: '删除成功!'
-            }).catch((err) => {
-              this.$message.error(err)
             })
             this.getHomeCourse()
+          }).catch((err) => {
+              this.$message.error(err)
           })
       }).catch(() => {
         this.$message({
