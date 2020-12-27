@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-07 10:01:39
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-12-27 16:11:24
+ * @LastEditTime: 2020-07-08 11:30:12
  */ 
 import Vue from 'vue'
 import axios from 'axios'
@@ -37,15 +37,15 @@ axios.interceptors.request.use(
 )
 // 返回状态判断(添加响应拦截器)
 axios.interceptors.response.use(
-//   response => {
-//       console.log('response interceptors2 succeed')
+  response => {
+      console.log('response interceptors2 succeed')
 
-//       return response;
-//   },
-//   error => {
-//       console.log('response interceptors2 failure')
-//       return Promise.reject(error)
-//   }
+      return response;
+  },
+  error => {
+      console.log('response interceptors2 failure')
+      return Promise.reject(error)
+  }
 
 )
 
