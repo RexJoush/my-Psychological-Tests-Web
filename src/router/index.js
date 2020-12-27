@@ -84,12 +84,6 @@ export const constantRoutes = [
         meta: { title: '心理测试类别管理', icon: 'table' }
       },
       {
-        path: 'findpsytest',
-        name: '心理测评管理',
-        component: () => import('@/views/findpsytest/index'),
-        meta: { title: '心理测评管理', icon: 'table' }
-      },
-      {
         path: 'findconsult',
         name: '心理咨询师管理',
         component: () => import('@/views/findconsult/index'),
