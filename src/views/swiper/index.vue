@@ -3,7 +3,7 @@
  * @Autor: Bonny.meng
  * @Date: 2020-07-07 09:38:20
  * @LastEditors: Bonny.meng
- * @LastEditTime: 2020-12-17 01:40:38
+ * @LastEditTime: 2020-10-24 20:36:44
 -->
 <template>
   <div class="app-container">
@@ -115,7 +115,6 @@ export default {
     },
     modeUpload(item) {
       this.mode = item.file
-      console.log('item',item)
     }
   }
 }
